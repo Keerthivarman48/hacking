@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Location Request Example</title>
+</head>
+<body>
+    <h1>Request Location</h1>
+    <button onclick="requestLocation()">Get Location</button>
+
+    <script>
+        function requestLocation() {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    alert("Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude);
+                },
+                (error) => {
+                    alert("Error: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+    </script>
+</body>
+</html>
+
+
+
