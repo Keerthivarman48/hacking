@@ -1,93 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Your existing head content -->
-  </head>
-  <body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - Automobile Service App</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-      <h1>Welcome to Automobile Service App</h1>
-      <div id="map"></div>
-      <!-- Map here -->
-      <div class="services-cards">
-        <div class="service-card">Petrol Refuel</div>
-        <div class="service-card">Mechanic Need</div>
-        <div class="service-card">Pickup and Drop</div>
-        <div class="service-card">Tire Replacement</div>
-        <div class="service-card">Battery Service</div>
-        <div class="service-card">Emergency Services</div>
-      </div>
+        <h1>Welcome to Automobile Service App</h1>
+        <div id="map"></div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Initialize the map
-        const map = L.map("map").setView([0, 0], 2);
+        document.addEventListener("DOMContentLoaded", function () {
+            const map = L.map("map").setView([0, 0], 2);
 
-        // Add OpenStreetMap tiles
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            }).addTo(map);
 
-        // Define the custom mechanic shop icon
-        const mechanicShopIcon = L.icon({
-          iconUrl: "mechanicShopIcon.jpeg", // Local path to the custom icon
-          iconSize: [38, 95], // size of the icon
-          iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-          popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
-        });
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const pos = [lat, lon];
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const lat = position.coords.latitude;
-              const lon = position.coords.longitude;
-              const pos = [lat, lon];
+                        map.setView(pos, 18);
+                        L.marker(pos).addTo(map).bindPopup("You are here!").openPopup();
 
-              map.setView(pos, 18);
-
-              // Add a marker at the user's location
-              L.marker(pos).addTo(map).bindPopup("You are here!").openPopup();
-
-              // Add a marker for the mechanic shop with a custom icon
-              const mechanicShop = [13.074312375380389, 80.22331905132522];
-              L.marker(mechanicShop, { icon: mechanicShopIcon })
-                .addTo(map)
-                .bindPopup("Mechanic Shop")
-                .openPopup();
-            },
-            () => {
-              alert("Error: The Geolocation service failed.");
+                        fetch('https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app/location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ latitude: lat, longitude: lon })
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            console.log(data);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    },
+                    () => {
+                        alert("Error: The Geolocation service failed.");
+                    }
+                );
+            } else {
+                alert("Error: Your browser doesn't support geolocation.");
             }
-          );
-        } else {
-          // Browser doesn't support Geolocation
-          alert("Error: Your browser doesn't support geolocation.");
-        }
-      });
-
-      // Example API request
-      function registerUser(userType, username, password) {
-        fetch('https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ userType, username, password })
-        })
-        .then(response => response.text())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
         });
-      }
-
-      // Call the function to register a user
-      registerUser('customer', 'john_doe', 'securepassword');
     </script>
-  </body>
+</body>
 </html>
