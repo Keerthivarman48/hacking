@@ -3,49 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Camera and Web Camera Viewer</title>
+    <title>Mobile Camera Viewer</title>
 </head>
 <body>
-    <h1>IP Camera and Web Camera Viewer</h1>
-    <video id="cameraFeed" width="640" height="480" controls autoplay></video>
-    <video id="webCamFeed" width="640" height="480" autoplay></video>
+    <h1>Mobile Camera Viewer</h1>
+    <video id="mobileCamFeed" width="640" height="480" autoplay></video>
     
     <script>
-        const cameraIP = 'http://[2409:40f4:2e:3376:8000::]'; // Use your IPv6 address
-        const backendURL = 'https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app'; // Ngrok URL
+        const videoElement = document.getElementById('mobileCamFeed');
         
-        const videoElement = document.getElementById('cameraFeed');
-        const webCamElement = document.getElementById('webCamFeed');
-        
-        // Function to start the IP camera video feed
-        function startIPCameraFeed() {
-            videoElement.src = `${cameraIP}/video`; // Adjust path according to your IP camera's video feed URL
-            videoElement.play();
-            
-            // Log IP address
-            fetch(`${backendURL}/log`)
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-        
-        // Function to start the web camera feed
-        async function startWebCameraFeed() {
+        // Function to start the mobile camera feed
+        async function startMobileCameraFeed() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                webCamElement.srcObject = stream;
+                videoElement.srcObject = stream;
             } catch (error) {
                 console.error('Error accessing the camera:', error);
             }
         }
         
-        // Start both feeds
-        startIPCameraFeed();
-        startWebCameraFeed();
+        startMobileCameraFeed();
     </script>
 </body>
 </html>
