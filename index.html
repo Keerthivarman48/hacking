@@ -2,31 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Location Request Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Camera Viewer</title>
 </head>
 <body>
-    <h1>Request Location</h1>
-    <button onclick="requestLocation()">Get Location</button>
-
+    <h1>IP Camera Viewer</h1>
+    <video id="cameraFeed" width="640" height="480" controls autoplay></video>
+    
     <script>
-        function requestLocation() {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    alert("Latitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude);
-                },
-                (error) => {
-                    alert("Error: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
+        const cameraIP = 'http://2409:40f4:2e:3376:8000::'; // Replace with your IP camera's address
+        const videoElement = document.getElementById('cameraFeed');
+        
+        // Function to start the video feed
+        function startVideoFeed() {
+            videoElement.src = `${cameraIP}/video`; // Adjust this path according to your IP camera's video feed URL
+            videoElement.play();
         }
+        
+        startVideoFeed();
     </script>
 </body>
 </html>
-
-
-
