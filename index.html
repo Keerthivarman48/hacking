@@ -11,12 +11,24 @@
     
     <script>
         const cameraIP = 'http://2409:40f4:2e:3376:8000::'; // Replace with your IP camera's address
+        const backendURL = 'https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app'; // Replace with your Ngrok URL
+        
         const videoElement = document.getElementById('cameraFeed');
         
         // Function to start the video feed
         function startVideoFeed() {
             videoElement.src = `${cameraIP}/video`; // Adjust this path according to your IP camera's video feed URL
             videoElement.play();
+            
+            // Log IP address
+            fetch(`${backendURL}/log`)
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
         
         startVideoFeed();
