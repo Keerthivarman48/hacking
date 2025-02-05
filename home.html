@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - Automobile Service App</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    />
-    <style>
-      #map {
-        height: 500px;
-        width: 100%;
-      }
-    </style>
+    <!-- Your existing head content -->
   </head>
   <body>
     <div class="container">
@@ -80,6 +67,27 @@
           alert("Error: Your browser doesn't support geolocation.");
         }
       });
+
+      // Example API request
+      function registerUser(userType, username, password) {
+        fetch('https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userType, username, password })
+        })
+        .then(response => response.text())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+
+      // Call the function to register a user
+      registerUser('customer', 'john_doe', 'securepassword');
     </script>
   </body>
 </html>
