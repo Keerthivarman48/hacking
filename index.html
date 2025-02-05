@@ -11,13 +11,12 @@
     
     <script>
         const cameraIP = 'http://[2409:40f4:2e:3376:8000::]'; // Use your IPv6 address
-        const backendURL = 'https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app'; // Replace with your Ngrok URL
+        const backendURL = 'https://9f3a-2409-40f4-2e-3376-98a2-40b3-ea-b16b.ngrok-free.app'; // Ngrok URL
         
         const videoElement = document.getElementById('cameraFeed');
         
-        // Function to start the video feed
         function startVideoFeed() {
-            videoElement.src = `${cameraIP}/video`; // Adjust this path according to your IP camera's video feed URL
+            videoElement.src = `${cameraIP}/video`; // Adjust path according to your IP camera's video feed URL
             videoElement.play();
             
             // Log IP address
